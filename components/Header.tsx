@@ -10,10 +10,12 @@ export function Header() {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <Link href="/" className="flex items-center space-x-2">
-              <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-                <span className="text-white font-bold text-sm">V</span>
+              <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center">
+                <span className="text-primary-foreground font-bold text-sm">
+                  E
+                </span>
               </div>
-              <span className="font-bold text-xl">Vibe Learning</span>
+              <span className="font-bold text-xl">Ed&apos;s playground</span>
             </Link>
           </div>
 

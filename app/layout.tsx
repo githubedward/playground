@@ -15,9 +15,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Vibe Learning",
+  title: "Edward's playground",
   description:
-    "Interactive learning platform for understanding JavaScript equality operators (==, ===, !=, !==) with hands-on examples and quizzes.",
+    "Interactive learning playground for sharing my learning journey.",
   keywords: [
     "JavaScript",
     "equality operators",
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     "interactive",
     "tutorial",
   ],
-  authors: [{ name: "Vibe Learning Team" }],
+  authors: [{ name: "Edward" }],
   viewport: "width=device-width, initial-scale=1",
 };
 
