@@ -1,0 +1,20 @@
+# Template Rules
+
+## Components
+- Use reusable UI components from `/components/ui` and `/components/typography`
+- Colocate prop and state types with components
+
+## Functions
+- Regular functions for components
+- Arrow functions for everything else
+
+## Types
+- Data types in `/types` directory
+- Component types colocated with components
+
+## Styling
+- Use defined color tokens in `globals.css` (not Tailwind colors)
+- Use `gap` for spacing between elements
+
+## Icons
+- Use `lucide-react` for icons

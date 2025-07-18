@@ -1,5 +1,6 @@
 import { Container } from "@/components/container";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Heading } from "@/components/typography";
 
 export default function Home() {
   return (
@@ -18,14 +19,24 @@ export default function Home() {
 
       <div>
         {/* Section 2: Intro */}
-        <h1 className="text-4xl md:text-5xl font-bold text-center mb-4">
+        <Heading
+          size="h1"
+          variant="default"
+          weight="bold"
+          className="text-center mb-4"
+        >
           Hi, I&apos;m Edward
-        </h1>
+        </Heading>
 
         {/* Section 3: Sub-heading */}
-        <h2 className="text-xl md:text-2xl text-muted-foreground text-center mb-8">
+        <Heading
+          size="h2"
+          variant="muted"
+          weight="medium"
+          className="text-center mb-8"
+        >
           Learning in public, one post at a time
-        </h2>
+        </Heading>
 
         {/* Section 4: Description */}
         <p className="text-lg text-muted-foreground text-center mb-12 leading-relaxed max-w-lg mx-auto">
