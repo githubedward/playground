@@ -1,7 +1,8 @@
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { ThemeToggle } from "@/components/theme-toggle";
 import { GithubIcon } from "@/components/icons/github-icon";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { Text } from "@/components/typography";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export function Header() {
   return (
@@ -15,7 +16,9 @@ export function Header() {
                   E
                 </span>
               </div>
-              <span className="font-bold text-xl">Ed&apos;s playground</span>
+              <Text variant="lead" weight="bold">
+                Ed&apos;s playground
+              </Text>
             </Link>
           </div>
 

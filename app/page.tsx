@@ -1,6 +1,6 @@
 import { Container } from "@/components/container";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Heading } from "@/components/typography";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function Home() {
   return (
@@ -25,12 +25,13 @@ export default function Home() {
           weight="bold"
           className="text-center mb-4"
         >
-          Hi, I&apos;m Edward
+          Hi, I&apos;m Edward 👋
         </Heading>
 
         {/* Section 3: Sub-heading */}
         <Heading
-          size="h2"
+          size="h3"
+          as="h2"
           variant="muted"
           weight="medium"
           className="text-center mb-8"
