@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { ThemeToggle } from "@/components/ThemeToggle";
-import { GithubIcon } from "@/components/icons/GithubIcon";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { GithubIcon } from "@/components/icons/github-icon";
 
 export function Header() {
   return (
