@@ -16,8 +16,15 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Vibe Learning",
-  description: "Interactive learning platform for understanding JavaScript equality operators (==, ===, !=, !==) with hands-on examples and quizzes.",
-  keywords: ["JavaScript", "equality operators", "learning", "interactive", "tutorial"],
+  description:
+    "Interactive learning platform for understanding JavaScript equality operators (==, ===, !=, !==) with hands-on examples and quizzes.",
+  keywords: [
+    "JavaScript",
+    "equality operators",
+    "learning",
+    "interactive",
+    "tutorial",
+  ],
   authors: [{ name: "Vibe Learning Team" }],
   viewport: "width=device-width, initial-scale=1",
 };
@@ -39,9 +46,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Header />
-          <main className="flex-1">
-            {children}
-          </main>
+          <main className="flex-1">{children}</main>
         </ThemeProvider>
       </body>
     </html>

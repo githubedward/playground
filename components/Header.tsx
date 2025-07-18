@@ -16,7 +16,7 @@ export function Header() {
               <span className="font-bold text-xl">Vibe Learning</span>
             </Link>
           </div>
-          
+
           <nav className="flex items-center space-x-2">
             <ThemeToggle />
             <Button variant="outline" size="icon">
@@ -28,4 +28,4 @@ export function Header() {
       </div>
     </header>
   );
-} 
+}
