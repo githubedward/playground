@@ -40,7 +40,7 @@ const List = React.forwardRef<HTMLElement, ListProps>(
         {children}
       </Comp>
     );
-  }
+  },
 );
 
 List.displayName = "List";

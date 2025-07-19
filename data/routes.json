@@ -1,0 +1,14 @@
+{
+  "routes": [
+    {
+      "path": "fundamentals/equality-operators",
+      "title": "Understanding JavaScript abstract equality",
+      "description": "It's common knowledge to use the strict equality operator === over the abstract equality operator ==. I'm not going to dive into why you should prefer === because there are plenty of explanations on that topic already.",
+      "readingTime": "1 min read",
+      "datePublished": "2025-07-19",
+      "category": "fundamentals"
+    }
+  ],
+  "lastUpdated": "2025-07-19T16:15:29.592Z",
+  "totalRoutes": 1
+}

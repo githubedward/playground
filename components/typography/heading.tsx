@@ -31,7 +31,7 @@ const headingVariants = cva(
       variant: "default",
       weight: "semibold",
     },
-  }
+  },
 );
 
 export interface HeadingProps
@@ -53,7 +53,7 @@ const Heading = React.forwardRef<HTMLHeadingElement, HeadingProps>(
         {children}
       </Comp>
     );
-  }
+  },
 );
 
 Heading.displayName = "Heading";

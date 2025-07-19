@@ -10,6 +10,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Abstract equality",
+  description: "Understanding JavaScript abstract equality",
+  keywords: ["JavaScript", "equality operators", "abstract equality"],
+  authors: [{ name: "Edward" }],
+};
 
 export default function EqualityOperators() {
   return (
@@ -22,7 +30,7 @@ export default function EqualityOperators() {
           It&apos;s common knowledge to use the strict equality operator{" "}
           <InlineCode>{"==="}</InlineCode> over the abstract equality operator{" "}
           <InlineCode>==</InlineCode>. I&apos;m not going to dive into{" "}
-          <em>why</em> you should prefer <InlineCode>{"==="}</InlineCode>
+          <em>why</em> you should prefer <InlineCode>{"==="}</InlineCode>{" "}
           because there are plenty of explanations on that topic already.
         </Text>
       </div>

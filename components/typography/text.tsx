@@ -7,8 +7,8 @@ const textVariants = cva("font-sans text-foreground", {
     variant: {
       default: "text-foreground",
       muted: "text-muted-foreground",
-      lead: "text-foreground text-xl leading-7",
-      small: "text-sm leading-6",
+      lead: "text-xl leading-7 text-accent-foreground",
+      small: "text-sm leading-6 text-accent-foreground",
     },
     weight: {
       normal: "font-normal",
@@ -42,7 +42,7 @@ const Text = React.forwardRef<HTMLParagraphElement, TextProps>(
         {children}
       </Comp>
     );
-  }
+  },
 );
 
 Text.displayName = "Text";

@@ -15,7 +15,7 @@ const inlineCodeVariants = cva(
     defaultVariants: {
       variant: "default",
     },
-  }
+  },
 );
 
 export interface InlineCodeProps
@@ -37,7 +37,7 @@ const InlineCode = React.forwardRef<HTMLElement, InlineCodeProps>(
         {children}
       </Comp>
     );
-  }
+  },
 );
 
 InlineCode.displayName = "InlineCode";
