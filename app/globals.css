@@ -121,3 +121,10 @@
     @apply bg-background text-foreground;
   }
 }
+
+code {
+  font-feature-settings:
+    "liga" 0,
+    "clig" 0;
+  font-variant-ligatures: none;
+}
