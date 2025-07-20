@@ -11,6 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Abstract equality",
@@ -123,6 +124,108 @@ export default function EqualityOperators() {
             happens under the hood when <InlineCode>==</InlineCode> performs its
             type coercion magic. Let&apos;s explore the mechanics.
           </Text>
+        </section>
+
+        <section className="space-y-3">
+          <Heading size="h4" as="h2">
+            Understanding the ECMAScript Algorithm
+          </Heading>
+
+          <Text>
+            The magic behind <InlineCode>==</InlineCode> follows a precise
+            algorithm defined in the{" "}
+            <Link
+              href="https://tc39.es/ecma262/#sec-abstract-equality-comparison"
+              target="_blank"
+              className="underline"
+              aria-label="View ECMAScript specification"
+            >
+              ECMAScript specification
+            </Link>
+            . Here are the key rules that govern type coercion:
+          </Text>
+
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Rule</TableHead>
+                <TableHead>Examples</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              <TableRow>
+                <TableCell>
+                  Same types - when both operands are the same type,{" "}
+                  <InlineCode>==</InlineCode> behaves exactly like{" "}
+                  <InlineCode>{"==="}</InlineCode>
+                </TableCell>
+                <TableCell>
+                  <InlineCode>5 == 5</InlineCode> → Direct comparison, no
+                  coercion needed
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>
+                  null and undefined - these have special treatment
+                </TableCell>
+                <TableCell>
+                  <List variant="unordered">
+                    <li>
+                      <InlineCode>null == undefined</InlineCode> → Always true
+                      (spec rule)
+                    </li>
+                    <li>
+                      null and undefined only equal each other, nothing else
+                    </li>
+                  </List>
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>
+                  Boolean conversion - booleans always convert to numbers first
+                </TableCell>
+                <TableCell>
+                  <List variant="unordered">
+                    <li>true becomes 1</li>
+                    <li>false becomes 0</li>
+                    <li>Then the comparison continues with the new number</li>
+                  </List>
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>
+                  String vs Number - when comparing strings and numbers, strings
+                  convert to numbers
+                </TableCell>
+                <TableCell>
+                  <List variant="unordered">
+                    <li>
+                      <InlineCode>&quot;5&quot; == 5</InlineCode> →
+                      Number(&quot;5&quot;) = 5 → 5 == 5 → true
+                    </li>
+                    <li>
+                      <InlineCode>&quot;hello&quot; == 5</InlineCode> →
+                      Number(&quot;hello&quot;) = NaN → NaN == 5 → false
+                    </li>
+                  </List>
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>
+                  Object to Primitive - objects convert to primitives
+                </TableCell>
+                <TableCell>
+                  <List variant="unordered">
+                    <li>Arrays: [] → &quot;&quot; (empty string)</li>
+                    <li>Objects: {} → &quot;[object Object]&quot;</li>
+                    <li>
+                      Then the comparison continues with the primitive value
+                    </li>
+                  </List>
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
         </section>
       </div>
     </Container>
