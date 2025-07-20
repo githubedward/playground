@@ -15,7 +15,7 @@ import Link from "next/link";
 
 export default function EqualityOperators() {
   return (
-    <Container className="my-14 space-y-8">
+    <Container className="my-6 md:my-16 space-y-8">
       <div className="space-y-4">
         <Heading size="h2" as="h1" variant="default" weight="bold">
           Understanding JavaScript abstract equality

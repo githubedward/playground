@@ -13,6 +13,8 @@ interface Step {
   rule: string;
   conversions?: string[];
   result?: boolean;
+  currentX?: unknown;
+  currentY?: unknown;
 }
 
 interface ComparisonResult {
@@ -26,6 +28,8 @@ const presetExamples = [
   { left: "true", right: "1", label: "true == 1" },
   { left: '""', right: "0", label: '"" == 0' },
   { left: "null", right: "undefined", label: "null == undefined" },
+  { left: '"\\t\\r\\n"', right: "0", label: '"\\t\\r\\n" == 0' },
+  { left: "[,,,]", right: '",,,"', label: '[,,,] == ",,,"' },
 ];
 
 export function InteractiveEqualityExplorer() {
@@ -136,6 +140,8 @@ export function InteractiveEqualityExplorer() {
           description: "Both operands are null",
           rule: "Same types - use strict equality comparison",
           result: true,
+          currentX: x,
+          currentY: y,
         });
         return { finalResult: true, steps };
       }
@@ -146,6 +152,8 @@ export function InteractiveEqualityExplorer() {
           description: `Both operands are of type ${getTypeName(x)}`,
           rule: "Same types - use strict equality comparison",
           result: x === y,
+          currentX: x,
+          currentY: y,
         });
         return { finalResult: x === y, steps };
       }
@@ -158,6 +166,8 @@ export function InteractiveEqualityExplorer() {
         description: "x is null and y is undefined",
         rule: "null == undefined → true (spec rule 2)",
         result: true,
+        currentX: x,
+        currentY: y,
       });
       return { finalResult: true, steps };
     }
@@ -169,6 +179,8 @@ export function InteractiveEqualityExplorer() {
         description: "x is undefined and y is null",
         rule: "undefined == null → true (spec rule 3)",
         result: true,
+        currentX: x,
+        currentY: y,
       });
       return { finalResult: true, steps };
     }
@@ -182,6 +194,8 @@ export function InteractiveEqualityExplorer() {
         description: `String "${originalY}" converted to number ${convertedY}`,
         rule: "Number vs String → convert string to number and compare recursively (spec rule 5)",
         conversions: [`"${originalY}" → ${convertedY}`],
+        currentX: x,
+        currentY: convertedY,
       });
       const recursiveResult = abstractEqualityComparison(
         x,
@@ -203,6 +217,8 @@ export function InteractiveEqualityExplorer() {
         description: `String "${originalX}" converted to number ${convertedX}`,
         rule: "String vs Number → convert string to number and compare recursively (spec rule 6)",
         conversions: [`"${originalX}" → ${convertedX}`],
+        currentX: convertedX,
+        currentY: y,
       });
       const recursiveResult = abstractEqualityComparison(
         convertedX,
@@ -224,6 +240,8 @@ export function InteractiveEqualityExplorer() {
         description: `Boolean ${originalX} converted to number ${convertedX}`,
         rule: "Boolean → convert to number and compare recursively (spec rule 9)",
         conversions: [`${originalX} → ${convertedX}`],
+        currentX: convertedX,
+        currentY: y,
       });
       const recursiveResult = abstractEqualityComparison(
         convertedX,
@@ -245,6 +263,8 @@ export function InteractiveEqualityExplorer() {
         description: `Boolean ${originalY} converted to number ${convertedY}`,
         rule: "Boolean → convert to number and compare recursively (spec rule 10)",
         conversions: [`${originalY} → ${convertedY}`],
+        currentX: x,
+        currentY: convertedY,
       });
       const recursiveResult = abstractEqualityComparison(
         x,
@@ -272,6 +292,8 @@ export function InteractiveEqualityExplorer() {
         description: `Object ${formatValue(originalY)} converted to primitive ${formatValue(convertedY)}`,
         rule: "Primitive vs Object → convert object to primitive and compare recursively (spec rule 11)",
         conversions: [`${formatValue(originalY)} → ${formatValue(convertedY)}`],
+        currentX: x,
+        currentY: convertedY,
       });
       const recursiveResult = abstractEqualityComparison(
         x,
@@ -297,6 +319,8 @@ export function InteractiveEqualityExplorer() {
         description: `Object ${formatValue(originalX)} converted to primitive ${formatValue(convertedX)}`,
         rule: "Object vs Primitive → convert object to primitive and compare recursively (spec rule 12)",
         conversions: [`${formatValue(originalX)} → ${formatValue(convertedX)}`],
+        currentX: convertedX,
+        currentY: y,
       });
       const recursiveResult = abstractEqualityComparison(
         convertedX,
@@ -315,6 +339,8 @@ export function InteractiveEqualityExplorer() {
       description: "No conversion rule applies",
       rule: "Return false (spec rule 14)",
       result: false,
+      currentX: x,
+      currentY: y,
     });
 
     return { finalResult: false, steps };
@@ -342,14 +368,14 @@ export function InteractiveEqualityExplorer() {
   };
 
   return (
-    <Card className="p-6">
+    <Card className="p-6 space-y-1">
       <Text weight="semibold">
         Enter two values to see how the abstract equality operator (==) works
         step by step.
       </Text>
 
       {/* Input Interface */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+      <div className="flex flex-row gap-4 items-end">
         <div>
           <label htmlFor="left-input" className="text-sm font-medium">
             Left Operand
@@ -357,11 +383,16 @@ export function InteractiveEqualityExplorer() {
           <Input
             id="left-input"
             value={leftInput}
-            onChange={(e) => setLeftInput(e.target.value)}
+            onChange={(e) => {
+              setLeftInput(e.target.value);
+              setResult(null);
+              setError(null);
+            }}
             placeholder="Enter value..."
             className="font-mono"
           />
         </div>
+        <Text>{"=="}</Text>
         <div>
           <label htmlFor="right-input" className="text-sm font-medium">
             Right Operand
@@ -369,7 +400,11 @@ export function InteractiveEqualityExplorer() {
           <Input
             id="right-input"
             value={rightInput}
-            onChange={(e) => setRightInput(e.target.value)}
+            onChange={(e) => {
+              setRightInput(e.target.value);
+              setResult(null);
+              setError(null);
+            }}
             placeholder="Enter value..."
             className="font-mono"
           />
@@ -378,19 +413,21 @@ export function InteractiveEqualityExplorer() {
           Compare
         </Button>
       </div>
-
-      <div className="flex flex-wrap gap-2">
-        {presetExamples.map((example, index) => (
-          <Button
-            key={index}
-            variant="outline"
-            size="sm"
-            onClick={() => handlePreset(example.left, example.right)}
-            className="font-mono text-xs"
-          >
-            {example.label}
-          </Button>
-        ))}
+      <div>
+        <Text variant="muted">Quick examples:</Text>
+        <div className="flex flex-wrap gap-2">
+          {presetExamples.map((example, index) => (
+            <Button
+              key={index}
+              variant="outline"
+              size="sm"
+              onClick={() => handlePreset(example.left, example.right)}
+              className="font-mono text-xs"
+            >
+              {example.label}
+            </Button>
+          ))}
+        </div>
       </div>
 
       {/* Error Display */}
@@ -403,7 +440,7 @@ export function InteractiveEqualityExplorer() {
       {/* Results Display */}
       {result && (
         <div className="space-y-4">
-          <div className="p-4 bg-gray-50 rounded-lg">
+          <div className="p-4 bg-foreground/5 rounded-lg">
             <Text className="font-mono text-lg">
               {formatValue(parseInput(leftInput))} =={" "}
               {formatValue(parseInput(rightInput))} →{" "}
@@ -429,6 +466,16 @@ export function InteractiveEqualityExplorer() {
                   </Text>
                 </div>
                 <Text className="text-sm text-gray-600">{step.rule}</Text>
+                {(step.currentX !== undefined ||
+                  step.currentY !== undefined) && (
+                  <div className="text-sm">
+                    <Text className="text-gray-600">Current values:</Text>
+                    <div className="font-mono text-xs ml-2">
+                      x = {formatValue(step.currentX)}, y ={" "}
+                      {formatValue(step.currentY)}
+                    </div>
+                  </div>
+                )}
                 {step.conversions && (
                   <div className="text-sm">
                     <Text className="text-gray-600">Conversions:</Text>
