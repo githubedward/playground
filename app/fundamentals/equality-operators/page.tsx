@@ -1,4 +1,5 @@
 import { Container } from "@/components/container";
+import { InteractiveEqualityExplorer } from "@/components/interactive-equality-explorer";
 import { Heading, Text } from "@/components/typography";
 import { InlineCode } from "@/components/ui/inline-code";
 import { List } from "@/components/ui/list";
@@ -10,19 +11,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Metadata } from "next";
 import Link from "next/link";
-
-export const metadata: Metadata = {
-  title: "Abstract equality",
-  description: "Understanding JavaScript abstract equality",
-  keywords: ["JavaScript", "equality operators", "abstract equality"],
-  authors: [{ name: "Edward" }],
-};
 
 export default function EqualityOperators() {
   return (
-    <Container className="mt-14 space-y-8">
+    <Container className="my-14 space-y-8">
       <div className="space-y-4">
         <Heading size="h2" as="h1" variant="default" weight="bold">
           Understanding JavaScript abstract equality
@@ -226,6 +219,21 @@ export default function EqualityOperators() {
               </TableRow>
             </TableBody>
           </Table>
+        </section>
+
+        {/* Interactive Explorer Section */}
+        <section className="space-y-3">
+          <Heading size="h4" as="h2">
+            Interactive Equality Explorer
+          </Heading>
+
+          <Text>
+            Try it yourself! Enter two values below to see exactly how the
+            abstract equality operator works step by step, following the
+            ECMAScript algorithm.
+          </Text>
+
+          <InteractiveEqualityExplorer />
         </section>
       </div>
     </Container>
