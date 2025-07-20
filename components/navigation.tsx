@@ -32,8 +32,8 @@ export function Navigation({ routes, className }: NavigationProps) {
     <div className={cn("space-y-4 w-full", className)}>
       {routes.map((route) => {
         return (
-          <Link key={route.path} href={route.path} className="w-full ">
-            <Card className="transition-all duration-300 hover:shadow-md hover:opacity-75">
+          <Link key={route.path} href={route.path} className="w-full">
+            <Card className="transition-all duration-300 hover:scale-101 hover:opacity-75">
               <CardContent>
                 <div className="flex items-start justify-between">
                   <div className="space-y-2 flex-1">

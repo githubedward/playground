@@ -23,3 +23,10 @@
 ## Icons
 
 - Use `lucide-react` for icons
+
+## Workflow
+
+- check `package.json` for the commands
+- use `pnpm` for package management
+- ensure your code is formatted with `pnpm run format`
+- ensure your code is linted with `pnpm run lint`

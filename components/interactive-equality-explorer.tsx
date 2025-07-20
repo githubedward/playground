@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface Step {
   number: number;
@@ -37,6 +37,17 @@ export function InteractiveEqualityExplorer() {
   const [rightInput, setRightInput] = useState("![]");
   const [result, setResult] = useState<ComparisonResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll to results when they appear
+  useEffect(() => {
+    if (result && resultsRef.current) {
+      resultsRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+      });
+    }
+  }, [result]);
 
   // Parse user input to JavaScript value
   const parseInput = (inputString: string): unknown => {
@@ -119,7 +130,10 @@ export function InteractiveEqualityExplorer() {
     if (typeof obj === "object" && obj !== null) {
       return "[object Object]";
     }
-    return obj;
+    if (typeof obj === "string" || typeof obj === "number") {
+      return obj;
+    }
+    return String(obj);
   };
 
   // Abstract equality comparison algorithm (ECMAScript 7.2.15)
@@ -370,8 +384,8 @@ export function InteractiveEqualityExplorer() {
   return (
     <Card className="p-6 space-y-1">
       <Text weight="semibold">
-        Enter two values to see how the abstract equality operator (==) works
-        step by step.
+        Enter two values and click &quot;Compare&quot; to see how the abstract
+        equality operator (==) works step by step.
       </Text>
 
       {/* Input Interface */}
@@ -439,7 +453,7 @@ export function InteractiveEqualityExplorer() {
 
       {/* Results Display */}
       {result && (
-        <div className="space-y-4">
+        <div ref={resultsRef} className="space-y-4">
           <div className="p-4 bg-foreground/5 rounded-lg">
             <Text className="font-mono text-lg">
               {formatValue(parseInput(leftInput))} =={" "}

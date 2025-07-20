@@ -28,6 +28,7 @@ export const metadata: Metadata = {
   authors: [{ name: "Edward" }],
 };
 
+// TODO: add header animation
 export default function RootLayout({
   children,
 }: Readonly<{

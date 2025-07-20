@@ -24,9 +24,14 @@ export function Header() {
 
           <nav className="flex items-center space-x-2">
             <ThemeToggle />
-            <Button variant="outline" size="icon">
-              <GithubIcon className="h-4 w-4" />
-              <span className="sr-only">GitHub</span>
+            <Button variant="outline" size="icon" asChild>
+              <Link
+                href="https://github.com/githubedward/playground"
+                target="_blank"
+              >
+                <GithubIcon className="h-4 w-4" />
+                <span className="sr-only">GitHub</span>
+              </Link>
             </Button>
           </nav>
         </div>

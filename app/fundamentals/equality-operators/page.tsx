@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/table";
 import Link from "next/link";
 
+// TODO: add date published
 export default function EqualityOperators() {
   return (
     <Container className="my-6 md:my-16 space-y-8">
@@ -115,7 +116,8 @@ export default function EqualityOperators() {
           <Text>
             What I <em>am</em> curious about is understanding exactly what
             happens under the hood when <InlineCode>==</InlineCode> performs its
-            type coercion magic. Let&apos;s explore the mechanics.
+            type coercion magic. Is it useful? That is a question for another
+            day. For now, let&apos;s explore the mechanics :D.
           </Text>
         </section>
 
