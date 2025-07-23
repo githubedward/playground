@@ -1,5 +1,4 @@
 import { Container } from "@/components/container";
-import { InteractiveEqualityExplorer } from "@/components/interactive-equality-explorer";
 import { Heading, Text } from "@/components/typography";
 import { InlineCode } from "@/components/ui/inline-code";
 import { List } from "@/components/ui/list";
@@ -12,6 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Link from "next/link";
+import { InteractiveEqualityExplorer } from "./_components/interactive-equality-explorer";
 
 // TODO: add date published
 export default function EqualityOperators() {
