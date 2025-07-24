@@ -1,0 +1,49 @@
+import { BasicAutocomplete } from "./basic-autocomplete";
+import { CachedAutocomplete } from "./cached-autocomplete";
+import { DebouncedAutocomplete } from "./debounced-autocomplete";
+
+# Autocomplete, debouncing, and caching
+
+I recently read about designing an autocomplete implementation in [greatfrontend.com](https://www.greatfrontend.com/questions/system-design/autocomplete). While it appears as a simple component visually, it has a surprisingly complex implementation underneath.
+
+This isn't a comprehensive post on autocomplete systems, but rather a quick and simple visual comparison showing the performance impact of debouncing and caching. There are many more complex considerations to account for in production systems, such as implementing retries, handling race conditions, building a more robust caching strategy with TTL and invalidation, etc.. But I'll save those topics for future posts.
+
+Below, I've built an interactive autocomplete component using React and Tailwind CSS. The suggestions are retrieved from the Google Places API when the input reaches 3 characters or more.
+
+#### Testing
+
+To test the performance differences between implementations, try these specific inputs below. You should see the cache hit and API hit metrics update as you type and notice slightly improved rendering performance on the cached implementation.
+
+**Test sequence:**
+
+```
+- "a"
+- "ab"
+- "abc" (API call triggers here)
+- "abcd"
+- "abcde"
+- "abcdef"
+- "abcdefg"
+- Remove one character at a time back to "abc"
+- Add one character at a time forward to "abcdefg"
+```
+
+Pay attention to how the cached version eliminates redundant API calls when you backtrack and retype the same characters.
+
+<div className="flex flex-col md:flex-row gap-4 mb-6">
+  <BasicAutocomplete />
+  <DebouncedAutocomplete />
+  <CachedAutocomplete />
+</div>
+
+#### The 3 implementations
+
+1. **Plain implementation** - No debouncing or caching. Every keystroke triggers an immediate API call, demonstrating the baseline performance.
+2. **Debounced implementation** - Debounces the input with a 300ms delay. This reduces API calls by approximately 70% for typical typing patterns while maintaining responsive feel. _A more advanced approach would use dynamic debouncing - longer delays (500ms) for the first few characters when users are still thinking, then shorter delays (150ms) as they type faster. This better matches natural typing rhythm._
+3. **Cached implementation with debouncing** - Combines debouncing with simple caching using React ref. Previously searched terms return instantly without additional API calls. _Production frontend implementations would typically add TTL (time-to-live) expiration, cache size limits, and LRU eviction policies to prevent memory bloat. Libraries like React Query (TanStack Query) provide these features out of the box with additional benefits like background refetching and stale-while-revalidate patterns._
+
+#### High level design
+
+1. **[Controller](https://github.com/githubedward/playground/blob/main/app/system-design/autocomplete/_controller/useAutocomplete.ts)** - `useAutocomplete` hook responsible for retrieving data from the API and returning it to the view component. Handles debouncing input and caching results.
+2. **[View](https://github.com/githubedward/playground/blob/main/app/system-design/autocomplete/_components/autocomplete-input.tsx)** - `AutocompleteInput` component responsible for displaying the autocomplete input and suggestion results.
+3. **Action** - `fetchPlaces` function responsible for retrieving data from the Google Places API.

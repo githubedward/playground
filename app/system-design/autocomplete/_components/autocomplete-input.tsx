@@ -34,14 +34,14 @@ export function AutocompleteInput({
             {title}
           </Text>
           <Text>
-            Cache hit: <span>{cacheHit}</span>
+            Cache hit: <span className="font-bold">{cacheHit}</span>
           </Text>
           <Text>
-            API hit: <span>{apiHit}</span>
+            API hit: <span className="font-bold">{apiHit}</span>
           </Text>
         </div>
       </div>
-      <Command shouldFilter={false}>
+      <Command shouldFilter={false} className="bg-accent animate-pulse">
         <CommandInput
           placeholder="Find a place"
           value={input}
