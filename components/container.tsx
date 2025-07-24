@@ -5,7 +5,10 @@ type ContainerProps = ComponentProps<"div">;
 
 export function Container({ children, className, ...props }: ContainerProps) {
   return (
-    <div className={cn("container mx-auto px-4", className)} {...props}>
+    <div
+      className={cn("container mx-auto px-4 max-w-6xl", className)}
+      {...props}
+    >
       {children}
     </div>
   );
