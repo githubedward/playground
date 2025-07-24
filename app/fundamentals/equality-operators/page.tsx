@@ -1,4 +1,5 @@
 import { Container } from "@/components/container";
+import { DatePublished } from "@/components/date-published";
 import { Heading, Text } from "@/components/typography";
 import { InlineCode } from "@/components/ui/inline-code";
 import { List } from "@/components/ui/list";
@@ -21,6 +22,7 @@ export default function EqualityOperators() {
         <Heading size="h2" as="h1" variant="default" weight="bold">
           Understanding JavaScript abstract equality
         </Heading>
+        <DatePublished path="fundamentals/equality-operators" />
         <Text variant="lead">
           It&apos;s common knowledge to use the strict equality operator{" "}
           <InlineCode>{"==="}</InlineCode> over the abstract equality operator{" "}
