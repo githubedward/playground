@@ -4,11 +4,19 @@
       "path": "fundamentals/equality-operators",
       "title": "Understanding JavaScript abstract equality",
       "description": "It's common knowledge to use the strict equality operator === over the abstract equality operator ==. I'm not going to dive into why you should prefer === because there are plenty of explanations on that topic already.",
-      "readingTime": "2 min read",
-      "datePublished": "2025-07-20",
+      "readingTime": "3 min read",
+      "datePublished": "2025-07-19T00:00:00.000Z",
       "category": "fundamentals"
+    },
+    {
+      "path": "system-design/autocomplete",
+      "title": "Autocomplete, debouncing, and caching",
+      "description": "I recently read about designing an autocomplete implementation in greatfrontend.com. While it appears as a simple component visually, it has a surprisingly complex implementation underneath.",
+      "readingTime": "3 min read",
+      "datePublished": "2025-07-23T00:00:00.000Z",
+      "category": "system-design"
     }
   ],
-  "lastUpdated": "2025-07-20T03:28:45.265Z",
-  "totalRoutes": 1
+  "lastUpdated": "2025-07-24T02:31:44.214Z",
+  "totalRoutes": 2
 }

@@ -8,7 +8,7 @@ export default function Home() {
   const routes = getNavigationRoutes();
 
   return (
-    <Container className="container mx-auto min-h-screen bg-background pt-16">
+    <Container className="container mx-auto min-h-screen bg-background py-16">
       {/* Section 1: Avatar */}
       <div className="flex justify-center mb-8">
         <Avatar className="w-30 h-30 border-2 border-border">

@@ -1,6 +1,7 @@
 "use client";
 
 import { Card, CardContent } from "@/components/ui/card";
+import { formatISOToReadableDate } from "@/lib/date";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { Heading, Text } from "./typography";
@@ -29,7 +30,7 @@ export function Navigation({ routes, className }: NavigationProps) {
   }
 
   return (
-    <div className={cn("space-y-4 w-full", className)}>
+    <div className={cn("space-y-4 w-full flex flex-col gap-2", className)}>
       {routes.map((route) => {
         return (
           <Link key={route.path} href={route.path} className="w-full">
@@ -51,7 +52,9 @@ export function Navigation({ routes, className }: NavigationProps) {
                     <Text variant="small">
                       <span>{route.readingTime}</span>
                       <span> • </span>
-                      <span>{route.datePublished}</span>
+                      <span>
+                        {formatISOToReadableDate(route.datePublished)}
+                      </span>
                     </Text>
                   </div>
                 </div>
