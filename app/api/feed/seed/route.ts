@@ -10,7 +10,7 @@ const supabase = createClient(
  * - Clears existing posts and users
  * - Creates sample users
  * - Creates sample posts (75% with images, 25% text-only)
- * - Posts are timestamped 1 minute apart for chronological feed
+ * - Posts have random timestamps within the last week
  */
 export async function POST() {
   console.log("Feed: Seeding database");
@@ -21,17 +21,20 @@ export async function POST() {
     await supabase.from("posts").delete().gte("id", 0);
     await supabase.from("users").delete().gte("id", 0);
 
-    console.log("Feed: Creating sample users");
-    // Generate and insert users (100)
-    const users = generateUsers(2);
+    const userCount = 2;
+    const postCount = 20;
+
+    console.log(`Feed: Creating sample users (${userCount})`);
+    // Generate and insert users (2)
+    const users = generateUsers(userCount);
     const { data: createdUsers } = await supabase
       .from("users")
       .insert(users)
       .select();
 
-    console.log("Feed: Creating sample posts");
-    // Generate and insert posts (1000 with 75% having images)
-    const posts = generatePosts(10, createdUsers ?? []);
+    console.log(`Feed: Creating sample posts (${postCount})`);
+    // Generate and insert posts (20 with 75% having images)
+    const posts = generatePosts(postCount, createdUsers ?? []);
     const { data: createdPosts } = await supabase
       .from("posts")
       .insert(posts)
@@ -72,7 +75,9 @@ const generatePosts = (count: number, users: { id: string }[]) => {
       content: postType.content,
       image_url: postType.image_url,
       image_alt: postType.image_alt,
-      created_at: new Date(Date.now() - i * 60000).toISOString(), // 1 minute apart
+      created_at: new Date(
+        Date.now() - Math.random() * 7 * 24 * 60 * 60 * 1000,
+      ).toISOString(), // Random within last week
     };
   });
 };
@@ -100,22 +105,27 @@ const getPostType = (postId: number) => {
 const generateTweetText = () => {
   const tweets = [
     "Just shipped a new feature! 🚀",
-    "Learning Next.js has been an amazing journey",
-    "Coffee + code = perfect morning ☕",
-    "React hooks make everything so much cleaner",
-    "Sometimes the best debugging tool is a good night's sleep",
-    "TypeScript is growing on me more each day",
+    "Learning Next.js has been an amazing journey. The component system is so intuitive.",
+    "Coffee + code = perfect morning ☕ Nothing beats debugging with a fresh cup.",
+    "React hooks make everything so much cleaner. No more class components for me!",
+    "Sometimes the best debugging tool is a good night's sleep. Came back this morning and found the bug in 5 minutes. Amazing what rest can do.",
+    "TypeScript is growing on me more each day. The type safety is incredible once you get used to it.",
+    "Working on a side project tonight. Building something cool with Supabase and Next.js. The developer experience is fantastic!",
+    "Code review day today. Found some interesting patterns in the codebase. Always learning something new from the team.",
+    "Performance optimization is like solving puzzles. Every millisecond counts in user experience.",
   ];
   return tweets[Math.floor(Math.random() * tweets.length)];
 };
 
 const generateImageCaption = () => {
   const captions = [
-    "Check out this amazing view!",
-    "New workspace setup 💻",
-    "Weekend project coming along nicely",
-    "Thought this was worth sharing",
-    "Beautiful day for coding outside",
+    "Check out this amazing view! Perfect spot for some outdoor coding.",
+    "New workspace setup 💻 Finally got the dual monitor setup working. Productivity is through the roof!",
+    "Weekend project coming along nicely. This UI is starting to look exactly like the design. Can't wait to ship it.",
+    "Thought this was worth sharing. Sometimes you find inspiration in the most unexpected places.",
+    "Beautiful day for coding outside. Fresh air and clean code go hand in hand.",
+    "Coffee shop vibes today ☕ Nothing like a change of scenery to boost creativity.",
+    "Late night coding session. The best ideas always come after midnight for some reason.",
   ];
   return captions[Math.floor(Math.random() * captions.length)];
 };
