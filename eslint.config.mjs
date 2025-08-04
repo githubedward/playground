@@ -48,6 +48,13 @@ const eslintConfig = [
       "@next/next/no-html-link-for-pages": "warn",
     },
   },
+  // Allow console.log in API routes
+  {
+    files: ["**/api/**/route.ts"],
+    rules: {
+      "no-console": "off",
+    },
+  },
 ];
 
 export default eslintConfig;
