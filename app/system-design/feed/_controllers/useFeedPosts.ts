@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { FeedPostType } from "../_types";
 import { getFeedPosts } from "../action";
 
@@ -58,19 +58,6 @@ export const useFeedPosts = () => {
     });
   };
 
-  const handleRenderMetrics = useCallback(
-    (
-      id: string,
-      phase: "mount" | "update" | "nested-update",
-      actualDuration: number,
-    ) => {
-      if (phase === "update" && id === "feed-posts") {
-        updateRenderMetrics(actualDuration);
-      }
-    },
-    [updateRenderMetrics],
-  );
-
   return {
     posts,
     loading,
@@ -81,6 +68,5 @@ export const useFeedPosts = () => {
     setHasMore,
     requestMetrics,
     updateRenderMetrics,
-    handleRenderMetrics,
   };
 };

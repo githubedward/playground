@@ -6,6 +6,8 @@ import { useFeedPosts } from "../_controllers/useFeedPosts";
 import { FeedMetrics } from "./feed-metrics";
 import { FeedPost } from "./feed-post";
 
+const PROFILER_ID = "optimized-feed-posts";
+
 export function OptimizedFeed() {
   const {
     posts,
@@ -15,7 +17,7 @@ export function OptimizedFeed() {
     setPage,
     page,
     requestMetrics,
-    handleRenderMetrics,
+    updateRenderMetrics,
   } = useFeedPosts();
 
   useEffect(() => {
@@ -36,10 +38,23 @@ export function OptimizedFeed() {
     },
   });
 
+  const handleRenderMetrics = useCallback(
+    (
+      id: string,
+      phase: "mount" | "update" | "nested-update",
+      actualDuration: number,
+    ) => {
+      if (phase === "update" && id === PROFILER_ID) {
+        updateRenderMetrics(actualDuration);
+      }
+    },
+    [updateRenderMetrics],
+  );
+
   return (
     <section className="flex flex-col">
       <FeedMetrics metrics={requestMetrics} />
-      <Profiler id="feed-posts" onRender={handleRenderMetrics}>
+      <Profiler id={PROFILER_ID} onRender={handleRenderMetrics}>
         {posts.map((post) => {
           const isLastPost = post.id === posts[posts.length - 1].id;
 
