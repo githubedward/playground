@@ -1,44 +1,27 @@
 "use client";
 
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect } from "react";
 import { useFeedPosts } from "../_controllers/useFeedPosts";
 import { FeedPost } from "./feed-post";
+import { useIntersectionObserver } from "../../../../hooks/useIntersectionObserver";
 
 export function Feed() {
   const { posts, loading, fetchPosts, hasMore, setPage, page } = useFeedPosts();
-  const lastPostRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     fetchPosts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
-  const handleIntersection = useCallback(
-    (entries: IntersectionObserverEntry[]) => {
-      const [entry] = entries;
-      if (entry.isIntersecting && !loading && hasMore) {
-        setPage((prev) => prev + 1);
-      }
-    },
-    [loading, hasMore, setPage],
-  );
+  const handleLoadMore = useCallback(() => {
+    setPage((prev) => prev + 1);
+  }, [setPage]);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(handleIntersection, {
-      rootMargin: "0px",
-    });
-
-    const currentRef = lastPostRef.current;
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
-
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
-    };
-  }, [handleIntersection, posts.length]);
+  const lastPostRef = useIntersectionObserver({
+    onIntersect: handleLoadMore,
+    enabled: !loading && hasMore,
+    dependencies: [posts.length],
+  });
 
   return (
     <section className="flex flex-col">
