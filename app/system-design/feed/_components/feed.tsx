@@ -1,12 +1,14 @@
 "use client";
 
 import { useCallback, useEffect } from "react";
-import { useFeedPosts } from "../_controllers/useFeedPosts";
-import { FeedPost } from "./feed-post";
 import { useIntersectionObserver } from "../../../../hooks/useIntersectionObserver";
+import { useFeedPosts } from "../_controllers/useFeedPosts";
+import { FeedMetrics } from "./feed-metrics";
+import { FeedPost } from "./feed-post";
 
 export function Feed() {
-  const { posts, loading, fetchPosts, hasMore, setPage, page } = useFeedPosts();
+  const { posts, loading, fetchPosts, hasMore, setPage, page, requestMetrics } =
+    useFeedPosts();
 
   useEffect(() => {
     fetchPosts();
@@ -25,6 +27,7 @@ export function Feed() {
 
   return (
     <section className="flex flex-col">
+      <FeedMetrics metrics={requestMetrics} />
       {posts.map((post) => {
         const isLastPost = post.id === posts[posts.length - 1].id;
 
