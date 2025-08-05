@@ -1,12 +1,21 @@
 "use client";
 
 import { Text } from "@/components/typography";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { useEffect, useRef } from "react";
 
 interface FeedMetric {
   page: number;
   duration: number;
   postsCount: number;
+  renderDuration?: number;
 }
 
 interface FeedMetricsProps {
@@ -38,14 +47,44 @@ export function FeedMetrics({ metrics }: FeedMetricsProps) {
       >
         Request Metrics
       </Text>
-      <div className="space-y-1">
-        {metrics.map((metric, index) => (
-          <Text key={index} variant="small" className="text-primary-foreground">
-            Page {metric.page}: {metric.duration.toFixed(2)}ms (
-            {metric.postsCount} posts)
-          </Text>
-        ))}
-      </div>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="text-primary-foreground">Page</TableHead>
+            <TableHead className="text-primary-foreground">DB (ms)</TableHead>
+            <TableHead className="text-primary-foreground">
+              Render (ms)
+            </TableHead>
+            <TableHead className="text-primary-foreground">
+              Total (ms)
+            </TableHead>
+            <TableHead className="text-primary-foreground">Posts</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {metrics.map((metric, index) => (
+            <TableRow key={index}>
+              <TableCell className="text-primary-foreground">
+                {metric.page}
+              </TableCell>
+              <TableCell className="text-primary-foreground">
+                {metric.duration.toFixed(2)}
+              </TableCell>
+              <TableCell className="text-primary-foreground">
+                {metric.renderDuration ? metric.renderDuration.toFixed(2) : "-"}
+              </TableCell>
+              <TableCell className="text-primary-foreground">
+                {metric.renderDuration
+                  ? (metric.duration + metric.renderDuration).toFixed(2)
+                  : metric.duration.toFixed(2)}
+              </TableCell>
+              <TableCell className="text-primary-foreground">
+                {metric.postsCount}
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
     </div>
   );
 }
