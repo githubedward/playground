@@ -45,7 +45,7 @@ export function FeedMetrics({ metrics }: FeedMetricsProps) {
         weight="semibold"
         className="mb-2 text-primary-foreground"
       >
-        Request Metrics
+        Performance Metrics
       </Text>
       <Table>
         <TableHeader>

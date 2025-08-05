@@ -6,7 +6,7 @@ import { useFeedPosts } from "../_controllers/useFeedPosts";
 import { FeedMetrics } from "./feed-metrics";
 import { FeedPost } from "./feed-post";
 
-export function Feed() {
+export function NaiveFeed() {
   const {
     posts,
     loading,
