@@ -21,8 +21,8 @@ export async function POST() {
     await supabase.from("posts").delete().gte("id", 0);
     await supabase.from("users").delete().gte("id", 0);
 
-    const userCount = 2;
-    const postCount = 20;
+    const userCount = 50;
+    const postCount = 1000;
 
     console.log(`Feed: Creating sample users (${userCount})`);
     // Generate and insert users (2)

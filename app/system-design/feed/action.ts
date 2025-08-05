@@ -8,9 +8,16 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!,
 );
 
-export async function getFeedPosts(): Promise<FeedPostType[]> {
+const LIMIT = 20;
+
+export async function getFeedPosts(page: number): Promise<FeedPostType[]> {
+  const start = page * LIMIT;
+  const end = start + LIMIT - 1; // Supabase range is inclusive, so subtract 1
+
+  console.log(`Fetching posts: page ${page}, range ${start}-${end}`);
+
   try {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("posts")
       .select(
         `
@@ -23,7 +30,12 @@ export async function getFeedPosts(): Promise<FeedPostType[]> {
       `,
       )
       .order("created_at", { ascending: false })
-      .range(0, 19);
+      .range(start, end);
+
+    if (error) {
+      console.error("Supabase error:", error);
+      return [];
+    }
 
     return data as unknown as FeedPostType[];
   } catch (error) {

@@ -50,7 +50,7 @@ const eslintConfig = [
   },
   // Allow console.log in API routes
   {
-    files: ["**/api/**/route.ts"],
+    files: ["**/api/**/route.ts", "**/action.ts"],
     rules: {
       "no-console": "off",
     },
