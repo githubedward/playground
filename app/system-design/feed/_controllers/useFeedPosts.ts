@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { FeedPostType } from "../_types";
 import { getFeedPosts } from "../action";
 
@@ -16,6 +16,8 @@ export const useFeedPosts = () => {
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [requestMetrics, setRequestMetrics] = useState<RequestMetric[]>([]);
+  const renderStartTime = useRef<number | null>(null);
+  const previousPostsLength = useRef(0);
 
   const fetchPosts = async () => {
     if (loading) return;
@@ -26,6 +28,8 @@ export const useFeedPosts = () => {
     if (response.posts.length === 0) {
       setHasMore(false);
     } else {
+      // Start render timing before updating posts
+      renderStartTime.current = performance.now();
       setPosts((prevPosts) => [...prevPosts, ...response.posts]);
     }
 
@@ -41,6 +45,21 @@ export const useFeedPosts = () => {
 
     setLoading(false);
   };
+
+  // Measure render time after DOM updates
+  useLayoutEffect(() => {
+    // Only update render metrics if we have posts and the number of posts has increased
+    if (renderStartTime.current && posts.length > previousPostsLength.current) {
+      const renderDuration = performance.now() - renderStartTime.current;
+
+      updateRenderMetrics(renderDuration);
+
+      // Reset the render start time so we can measure the next render
+      renderStartTime.current = null;
+    }
+    // Update the previous posts length to the current posts length so we can compare it next time
+    previousPostsLength.current = posts.length;
+  }, [posts.length]);
 
   const updateRenderMetrics = (renderDuration: number) => {
     setRequestMetrics((prev) => {
@@ -67,6 +86,5 @@ export const useFeedPosts = () => {
     setPage,
     setHasMore,
     requestMetrics,
-    updateRenderMetrics,
   };
 };
