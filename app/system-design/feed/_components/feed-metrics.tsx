@@ -20,9 +20,10 @@ interface FeedMetric {
 
 interface FeedMetricsProps {
   metrics: FeedMetric[];
+  description?: string;
 }
 
-export function FeedMetrics({ metrics }: FeedMetricsProps) {
+export function FeedMetrics({ metrics, description }: FeedMetricsProps) {
   const metricsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -38,7 +39,7 @@ export function FeedMetrics({ metrics }: FeedMetricsProps) {
   return (
     <div
       ref={metricsRef}
-      className="p-4 bg-primary sticky top-0 z-10 max-h-40 overflow-y-auto"
+      className="p-4 bg-primary sticky top-0 z-10 max-h-50 overflow-y-auto"
     >
       <Text
         variant="lead"
@@ -47,6 +48,9 @@ export function FeedMetrics({ metrics }: FeedMetricsProps) {
       >
         Performance Metrics
       </Text>
+      {description && (
+        <Text className="mb-2 text-primary-foreground">{description}</Text>
+      )}
       <Table>
         <TableHeader>
           <TableRow>

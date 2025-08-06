@@ -13,9 +13,11 @@ export default function Home() {
       <div className="flex justify-center mb-8">
         <Avatar className="w-30 h-30 border-2 border-border">
           <AvatarImage
-            src="profile-mini.jpg"
+            src="/profile-mini.jpg"
             alt="Edward"
             className="object-cover"
+            width={120}
+            height={120}
           />
           <AvatarFallback className="text-2xl font-bold">E</AvatarFallback>
         </Avatar>

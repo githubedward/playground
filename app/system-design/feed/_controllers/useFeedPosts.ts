@@ -2,7 +2,7 @@ import { useLayoutEffect, useRef, useState } from "react";
 import { FeedPostType } from "../_types";
 import { getFeedPosts } from "../action";
 
-interface RequestMetric {
+interface PerformanceMetric {
   page: number;
   duration: number;
   postsCount: number;
@@ -15,7 +15,9 @@ export const useFeedPosts = () => {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
-  const [requestMetrics, setRequestMetrics] = useState<RequestMetric[]>([]);
+  const [performanceMetrics, setPerformanceMetrics] = useState<
+    PerformanceMetric[]
+  >([]);
   const renderStartTime = useRef<number | null>(null);
   const previousPostsLength = useRef(0);
 
@@ -33,7 +35,7 @@ export const useFeedPosts = () => {
       setPosts((prevPosts) => [...prevPosts, ...response.posts]);
     }
 
-    setRequestMetrics((prev) => [
+    setPerformanceMetrics((prev) => [
       ...prev,
       {
         page,
@@ -62,7 +64,7 @@ export const useFeedPosts = () => {
   }, [posts.length]);
 
   const updateRenderMetrics = (renderDuration: number) => {
-    setRequestMetrics((prev) => {
+    setPerformanceMetrics((prev) => {
       if (prev.length === 0) return prev;
 
       // Update the most recent metric entry that doesn't have renderDuration yet
@@ -85,6 +87,6 @@ export const useFeedPosts = () => {
     page,
     setPage,
     setHasMore,
-    requestMetrics,
+    performanceMetrics,
   };
 };

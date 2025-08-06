@@ -7,8 +7,15 @@ import { FeedMetrics } from "./feed-metrics";
 import { FeedPost } from "./feed-post";
 
 export function NaiveFeed() {
-  const { posts, loading, fetchPosts, hasMore, setPage, page, requestMetrics } =
-    useFeedPosts();
+  const {
+    posts,
+    loading,
+    fetchPosts,
+    hasMore,
+    setPage,
+    page,
+    performanceMetrics,
+  } = useFeedPosts();
 
   useEffect(() => {
     fetchPosts();
@@ -25,9 +32,11 @@ export function NaiveFeed() {
     dependencies: [posts.length],
   });
 
+  const description = `Simple pagination, renders all posts in DOM, basic intersection observer, no virtualization`;
+
   return (
     <section className="flex flex-col">
-      <FeedMetrics metrics={requestMetrics} />
+      <FeedMetrics metrics={performanceMetrics} description={description} />
       {posts.map((post) => {
         const isLastPost = post.id === posts[posts.length - 1].id;
 

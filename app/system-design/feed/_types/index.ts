@@ -9,3 +9,11 @@ export type FeedPostType = {
     avatar_url: string;
   };
 };
+
+export type PerformanceMetric = {
+  page: number;
+  duration: number;
+  postsCount: number;
+  timestamp: number;
+  renderDuration?: number;
+};
