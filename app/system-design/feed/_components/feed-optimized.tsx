@@ -1,5 +1,6 @@
 "use client";
 
+import { Text } from "@/components/typography";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { useEffect, useRef } from "react";
 import { useFeedPostsOptimized } from "../_controllers/useFeedPostsOptimized";
@@ -73,9 +74,11 @@ export function OptimizedFeed() {
       <FeedMetrics metrics={performanceMetrics} description={description} />
 
       {/* Debug info */}
-      <div className="p-2 bg-yellow-100 text-xs">
-        Posts: {posts.length} | Loading: {loading.toString()} | Virtual Items:{" "}
-        {rowVirtualizer.getVirtualItems().length}
+      <div className="p-2 bg-warning text-xs sticky top-50 z-10">
+        <Text className="text-warning-foreground">
+          Total posts: {posts.length} | Loading: {loading.toString()} | Virtual
+          Items: {rowVirtualizer.getVirtualItems().length}
+        </Text>
       </div>
 
       {/* Virtualized Container */}
