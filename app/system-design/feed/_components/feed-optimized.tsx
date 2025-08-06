@@ -35,7 +35,7 @@ export function OptimizedFeed() {
 
       return Math.max(estimate, 150); // Minimum height
     },
-    overscan: 2,
+    overscan: 3,
     // Enable dynamic measurement
     measureElement: (element) => {
       if (!element) return 300;
@@ -67,7 +67,7 @@ export function OptimizedFeed() {
     fetchNextPage,
   ]);
 
-  const description = `TanStack Virtual: Virtualized list, renders only ~10 visible posts, auto-fetches next page when 15 posts before end, constant DOM size`;
+  const description = `Virtualized list, renders only ~10 visible posts, auto-fetches next page when 10 posts before end, constant DOM size`;
 
   return (
     <section className="flex flex-col h-full">
@@ -76,8 +76,8 @@ export function OptimizedFeed() {
       {/* Debug info */}
       <div className="p-2 bg-warning text-xs sticky top-50 z-10">
         <Text className="text-warning-foreground">
-          Total posts: {posts.length} | Loading: {loading.toString()} | Virtual
-          Items: {rowVirtualizer.getVirtualItems().length}
+          Total posts: {posts.length} | Virtual Items:{" "}
+          {rowVirtualizer.getVirtualItems().length}
         </Text>
       </div>
 

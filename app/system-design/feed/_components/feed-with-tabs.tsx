@@ -6,7 +6,7 @@ import { NaiveFeed } from "./feed-naive";
 import { OptimizedFeed } from "./feed-optimized";
 
 export function FeedWithTabs() {
-  const [activeTab, setActiveTab] = useState("optimized");
+  const [activeTab, setActiveTab] = useState("naive");
 
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab}>

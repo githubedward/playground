@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useEffect } from "react";
+import { Text } from "@/components/typography";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useIntersectionObserver } from "../../../../hooks/useIntersectionObserver";
 import { useFeedPosts } from "../_controllers/useFeedPosts";
 import { FeedMetrics } from "./feed-metrics";
@@ -17,10 +18,25 @@ export function NaiveFeed() {
     performanceMetrics,
   } = useFeedPosts();
 
+  const [domCount, setDomCount] = useState(0);
+
+  const feedContainerRef = useRef<HTMLElement>(null);
+
   useEffect(() => {
     fetchPosts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
+
+  // Count actual DOM items after posts are rendered
+  useEffect(() => {
+    if (feedContainerRef.current) {
+      // Count all FeedPost elements in the DOM
+      const feedPostElements =
+        feedContainerRef.current.querySelectorAll("[data-feed-post]");
+      const domCount = feedPostElements.length;
+      setDomCount(domCount);
+    }
+  }, [posts, domCount]);
 
   const handleLoadMore = useCallback(() => {
     setPage((prev) => prev + 1);
@@ -32,16 +48,26 @@ export function NaiveFeed() {
     dependencies: [posts.length],
   });
 
-  const description = `Simple pagination, renders all posts in DOM, basic intersection observer, no virtualization`;
+  const description = `Simple cursor-based pagination, renders all posts in DOM, basic intersection observer, no virtualization`;
 
   return (
-    <section className="flex flex-col">
+    <section ref={feedContainerRef} className="flex flex-col">
       <FeedMetrics metrics={performanceMetrics} description={description} />
+      <div className="p-2 bg-warning text-xs sticky top-50 z-10">
+        <Text className="text-warning-foreground">
+          Total posts: {posts.length} | Rendered Items: {domCount}
+        </Text>
+      </div>
+
       {posts.map((post) => {
         const isLastPost = post.id === posts[posts.length - 1].id;
 
         return (
-          <div key={post.id} ref={isLastPost ? lastPostRef : null}>
+          <div
+            data-feed-post
+            key={post.id}
+            ref={isLastPost ? lastPostRef : null}
+          >
             <FeedPost post={post} isLastPost={isLastPost} />
           </div>
         );
