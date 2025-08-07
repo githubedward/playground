@@ -155,6 +155,8 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
           "text-primary underline underline-offset-4 hover:text-primary/80 transition-colors",
           className,
         )}
+        target="_blank"
+        rel="noopener noreferrer"
         {...props}
       />
     ),

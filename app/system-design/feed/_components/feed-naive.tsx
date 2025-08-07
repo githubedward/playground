@@ -48,7 +48,7 @@ export function NaiveFeed() {
     dependencies: [posts.length],
   });
 
-  const description = `Simple cursor-based pagination, renders all posts in DOM, basic intersection observer, no virtualization`;
+  const description = `Simple offset-based pagination, renders all posts in DOM, basic intersection observer, no virtualization`;
 
   return (
     <section ref={feedContainerRef} className="flex flex-col">

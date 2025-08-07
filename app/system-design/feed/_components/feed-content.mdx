@@ -1,0 +1,59 @@
+import { DatePublished } from "@/components/date-published";
+
+# Feed, offset-based pagination, virtualization
+
+<DatePublished path="system-design/feed" />
+
+In this experiment, we compare two feed implementations to measure the performance impact of DOM virtualization on infinite scroll feeds. Both implementations use offset-based pagination but differ in how they handle DOM rendering as the feed grows.
+
+**Key question:** How does DOM virtualization affect performance and user experience as feed size increases?
+
+#### Differences in implementations
+
+**Naive implementation:**
+
+- Renders all fetched posts in DOM
+- Basic intersection observer for infinite scroll
+- Simple state management with useState
+
+**Optimized implementation:**
+
+- TanStack Virtual for DOM virtualization
+- TanStack Infinite Query for data fetching and caching
+- Only renders < 10 visible posts in DOM
+
+#### Database setup
+
+I set up a simple Supabase database with `posts` and `users` tables. The `posts` table includes a `created_at` column for offset-based pagination, while the `users` table contains `username` and `avatar_url` columns for displaying post authors. The database contains 1,000 posts and 100 users. You can view the offset-based pagination [query here](https://github.com/githubedward/playground/blob/main/app/system-design/feed/action.ts#L27-L40).
+
+#### Measuring performance
+
+Performance is measured using `performance.now()` at two key points:
+
+**Database queries:** Timing starts before the Supabase query and ends after data retrieval, measuring pure database performance.
+
+**Render time:** Timing starts when posts are added to state and ends after DOM updates complete (using `useLayoutEffect`). This captures the actual time to render new posts in the browser.
+
+Both implementations track these metrics per page and display them in real-time tables showing database time, render time, and total time for each pagination request.
+
+#### Final observations
+
+**Database query performance** remained consistent even after loading 500+ posts, averaging ~45ms across both implementations. This stability likely stems from the small database size and simple query structure.
+
+DOM size directly correlates with render time. In the naive implementation, early pages (5-14) averaged 22.30ms render time, but by pages 40-49, this increased to 42.91ms — a **92.4% performance penalty**.
+
+The **optimized implementation** maintains consistent render performance regardless of pagination depth. Render times averaged 2.70ms with only 0.69ms standard deviation, representing a **15x** improvement in average render time while completely eliminating performance degradation.
+
+#### Potential next steps
+
+Implement cursor-based pagination and add database indexing to improve query performance
+
+#### References
+
+- [Source code](https://github.com/githubedward/playground/tree/main/app/system-design/feed)
+- [TanStack Virtual](https://tanstack.com/virtual/latest/docs/api/virtualizer)
+- [TanStack Infinite Query](https://tanstack.com/query/v4/docs/framework/react/reference/useInfiniteQuery)
+
+---
+
+**Test the implementations below:**

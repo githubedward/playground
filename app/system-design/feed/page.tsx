@@ -1,7 +1,7 @@
 import { Container } from "@/components/container";
 import { ScrollToTop } from "@/components/scroll-to-top";
+import FeedContent from "./_components/feed-content.mdx";
 import { FeedWithTabs } from "./_components/feed-with-tabs";
-import FeedContent from "./feed-content.mdx";
 
 export const dynamic = "force-dynamic";
 

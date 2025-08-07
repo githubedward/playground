@@ -15,8 +15,16 @@
       "readingTime": "3 min read",
       "datePublished": "2025-07-23T00:00:00.000Z",
       "category": "system-design"
+    },
+    {
+      "path": "system-design/feed",
+      "title": "Feed, offset-based pagination, virtualization",
+      "description": "In this experiment, we compare two feed implementations to measure the performance impact of DOM virtualization on infinite scroll feeds. Both implementations use offset-based pagination but differ in how they handle DOM rendering as the feed grows.",
+      "readingTime": "3 min read",
+      "datePublished": "2025-08-05T02:53:59.031Z",
+      "category": "system-design"
     }
   ],
-  "lastUpdated": "2025-07-24T02:31:44.214Z",
-  "totalRoutes": 2
+  "lastUpdated": "2025-08-07T01:01:30.103Z",
+  "totalRoutes": 3
 }
