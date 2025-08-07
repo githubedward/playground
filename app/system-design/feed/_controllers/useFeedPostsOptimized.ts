@@ -34,6 +34,10 @@ export const useFeedPostsOptimized = () => {
         // If the last page has posts, continue with next page
         return lastPage.posts.length > 0 ? allPages.length : undefined;
       },
+      staleTime: 0,
+      gcTime: 0,
+      refetchOnMount: true,
+      refetchOnWindowFocus: false,
     });
 
   // Flatten all pages into a single posts array
