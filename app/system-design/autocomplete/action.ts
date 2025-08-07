@@ -35,6 +35,7 @@ export const fetchPlaces = async (
           "Content-Type": "application/json",
           "X-Goog-Api-Key": process.env.GOOGLE_API_KEY || "",
           "X-Goog-FieldMask": "*",
+          Referer: process.env.APP_URL || "localhost:3000",
         },
         body: JSON.stringify({
           input,
