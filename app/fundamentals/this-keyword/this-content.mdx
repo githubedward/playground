@@ -1,0 +1,114 @@
+import { DatePublished } from "@/components/date-published";
+
+# Javascript's <i>this</i> keyword: Two simple rules that might end the confusion
+
+<DatePublished path="fundamentals/this-keyword" />
+
+Yesterday, I was implementing a **throttle** function and ran into a `this` bug that took me 20 minutes to debug before deciding to use AI to fix it. I needed to throttle button clicks while preserving the button's context:
+
+```
+export default function throttle(func, wait) {
+  let throttled = false;
+
+  return (...args) => {  // ← My first attempt: arrow function
+    if (!throttled) {
+      func.apply(this, args);  // ← This broke everything
+      throttled = true;
+      setTimeout(() => throttled = false, wait);
+    }
+  };
+}
+
+// Sample usage:
+const button = {
+  id: 1,
+  handleClick: throttle(function() {
+    console.log(`Button ${this.id} clicked`);
+  }, 1000)
+};
+
+button.handleClick(); // "Button undefined clicked" 😤
+```
+
+The fix was simple - change the arrow function to a regular function:
+
+```
+return function(...args) {
+  if (!throttled) {
+    func.apply(this, args);  // ← Now `this` flows through correctly
+    throttled = true;
+    setTimeout(() => throttled = false, wait);
+  }
+};
+```
+
+That debugging session reminded me why understanding `this` is important and it does not have to be complicated.
+
+### The Two-Rule System
+
+These two rules handle the vast majority of `this` confusion:
+
+- **Rule 1: Regular functions** → `this` = whoever called me
+- **Rule 2: Arrow functions** → `this` = wherever I was born
+
+#### Rule 1 in Action: Regular functions
+
+```
+function introduce() {
+  console.log(`Hi, I'm ${this.name}`);
+}
+
+const alice = { name: "Alice", greet: introduce };
+const bob = { name: "Bob", greet: introduce };
+
+alice.greet(); // "Hi, I'm Alice" ← alice called it
+bob.greet();   // "Hi, I'm Bob"   ← bob called it
+introduce(); // "Hi, I'm undefined" ← no one called it (global context)
+```
+
+The same function, different callers, different `this`. Regular functions ask: **"Who called me?"**
+
+#### Rule 2 in Action: Arrow functions
+
+```
+const greetArrow = () => {
+  console.log(`Hi, I'm ${this.name}`);
+};
+
+const alice = { name: "Alice", greet: greetArrow };
+const bob = { name: "Bob", greet: greetArrow };
+
+alice.greet(); // "Hi, I'm undefined"
+bob.greet();   // "Hi, I'm undefined"
+```
+
+No matter who calls an arrow function, `this` stays the same - it remembers where it was **"born"**.
+
+#### When to Use Which?
+
+**Use regular functions** when you need `this` to be flexible (like utility functions):
+
+- Utility functions that preserve context (like throttle)
+- Event handlers that need the element
+- Methods that might be shared between objects
+
+**Use arrow functions** when you want `this` to be predictable:
+
+```
+class Timer {
+  constructor(name) {
+    this.name = name;
+  }
+
+  start() {
+    setInterval(() => {
+      console.log(`${this.name} timer tick`); // Always refers to the Timer instance
+    }, 1000);
+  }
+}
+```
+
+### The Bottom Line
+
+- Choose regular functions when you want `this` to change based on the caller
+- Choose arrow functions when you want `this` to stay constant.

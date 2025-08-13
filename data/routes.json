@@ -9,6 +9,14 @@
       "category": "fundamentals"
     },
     {
+      "path": "fundamentals/this-keyword",
+      "title": "Javascript's this keyword: Two simple rules that might end the confusion",
+      "description": "Yesterday, I was implementing a **throttle** function and ran into a `this` bug that took me 20 minutes to debug before deciding to use AI to fix it. I needed to throttle button clicks while preserving the button's context:",
+      "readingTime": "3 min read",
+      "datePublished": "2025-08-13T03:07:00.999Z",
+      "category": "fundamentals"
+    },
+    {
       "path": "system-design/autocomplete",
       "title": "Autocomplete, debouncing, and caching",
       "description": "I recently read about designing an autocomplete implementation in greatfrontend.com. While it appears as a simple component visually, it has a surprisingly complex implementation underneath.",
@@ -25,6 +33,6 @@
       "category": "system-design"
     }
   ],
-  "lastUpdated": "2025-08-07T01:01:30.103Z",
-  "totalRoutes": 3
+  "lastUpdated": "2025-08-13T03:57:04.271Z",
+  "totalRoutes": 4
 }
