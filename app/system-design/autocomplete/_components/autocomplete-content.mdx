@@ -11,7 +11,7 @@ I recently read about designing an autocomplete implementation in [greatfrontend
 
 This isn't a comprehensive post on autocomplete systems, but rather a quick and simple visual comparison showing the performance impact of debouncing and caching. There are many more complex considerations to account for in production systems, such as implementing retries, handling race conditions, building a more robust caching strategy with TTL and invalidation, etc.. But I'll save those topics for future posts.
 
-Below, I've built an interactive autocomplete component using React and Tailwind CSS. The suggestions are retrieved from the Google Places API when the input reaches 3 characters or more.
+Below, I've built an interactive autocomplete component using React and Tailwind CSS. The suggestions are retrieved from a Supabase `places` table when the input reaches 3 characters or more.
 
 #### Testing
 
@@ -49,4 +49,4 @@ Pay attention to how the cached version eliminates redundant API calls when you 
 
 1. **[Controller](https://github.com/githubedward/playground/blob/main/app/system-design/autocomplete/_controller/useAutocomplete.ts)** - `useAutocomplete` hook responsible for retrieving data from the API and returning it to the view component. Handles debouncing input and caching results.
 2. **[View](https://github.com/githubedward/playground/blob/main/app/system-design/autocomplete/_components/autocomplete-input.tsx)** - `AutocompleteInput` component responsible for displaying the autocomplete input and suggestion results.
-3. **Action** - `fetchPlaces` function responsible for retrieving data from the Google Places API.
+3. **Action** - `fetchPlaces` function responsible for retrieving data from Supabase. The response is shaped to match the Google Places API structure.
