@@ -31,10 +31,9 @@ export function getNavigationRoutes(): RouteInfo[] {
 
   // Return routes sorted by category, then by path
   return routes.sort((a, b) => {
-    if (a.category !== b.category) {
-      return a.category.localeCompare(b.category);
-    }
-    return a.path.localeCompare(b.path);
+    const dateA = new Date(a.dateUpdated ?? a.datePublished).getTime();
+    const dateB = new Date(b.dateUpdated ?? b.datePublished).getTime();
+    return dateB - dateA;
   });
 }
 

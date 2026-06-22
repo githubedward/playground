@@ -10,8 +10,8 @@
     "lint:fix": "next lint --fix",
     "format": "prettier --write .",
     "seed:feed": "curl -X POST http://localhost:3000/api/feed/seed",
-    "generate:routes": "node scripts/generate-routes.js",
-    "update:date": "node scripts/update-route-date.js"
+    "generate:routes": "node temp/generate-routes.js",
+    "update:date": "node temp/update-route-date.js"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.0",
