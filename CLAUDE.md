@@ -24,6 +24,11 @@
 
 - Use `lucide-react` for icons
 
+## Next.js
+
+- Use server actions (`"use server"`) for all API/data calls — no API route handlers
+- Colocate server actions in `action.ts` within the feature directory
+
 ## Workflow
 
 - check `package.json` for the commands

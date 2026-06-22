@@ -20,15 +20,15 @@ To test the performance differences between implementations, try these specific 
 **Test sequence:**
 
 ```
-- "a"
-- "ab"
-- "abc" (API call triggers here)
-- "abcd"
-- "abcde"
-- "abcdef"
-- "abcdefg"
-- Remove one character at a time back to "abc"
-- Add one character at a time forward to "abcdefg"
+- "t"
+- "to"
+- "tor" (API call triggers here)
+- "toro"
+- "toron"
+- "toront"
+- "toronto"
+- Remove one character at a time back to "tor"
+- Add one character at a time forward to "toronto"
 ```
 
 Pay attention to how the cached version eliminates redundant API calls when you backtrack and retype the same characters.

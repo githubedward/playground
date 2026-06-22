@@ -1,12 +1,12 @@
 "use server";
 
+import { createClient } from "@supabase/supabase-js";
 import { PlaceSuggestion } from "./_types";
 
 type GooglePlacesResponse = {
   suggestions?: PlaceSuggestion[];
 };
 
-// Discriminated union types for fetchPlaces
 export type FetchPlacesSuccess = {
   status: "ok";
   data: GooglePlacesResponse;
@@ -19,41 +19,37 @@ export type FetchPlacesError = {
 
 export type FetchPlacesResult = FetchPlacesSuccess | FetchPlacesError;
 
+const supabase = createClient(
+  process.env.SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!,
+);
+
 export const fetchPlaces = async (
   input: string,
 ): Promise<FetchPlacesResult> => {
-  if (!process.env.GOOGLE_API_KEY) {
-    return { status: "error", error: "GOOGLE_API_KEY is not set" };
-  }
-
   try {
-    const response = await fetch(
-      `https://places.googleapis.com/v1/places:autocomplete`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Goog-Api-Key": process.env.GOOGLE_API_KEY || "",
-          "X-Goog-FieldMask": "*",
-          Referer: process.env.APP_URL || "localhost:3000",
-        },
-        body: JSON.stringify({
-          input,
-          locationBias: {
-            circle: {
-              center: {
-                latitude: 62.0,
-                longitude: -96.0,
-              },
-              radius: 50000.0,
-            },
-          },
-        }),
-      },
-    );
+    const { data, error } = await supabase
+      .from("places")
+      .select("place_id, name, secondary, types")
+      .ilike("name", `%${input}%`)
+      .limit(5);
 
-    const data = await response.json();
-    return { status: "ok", data };
+    if (error) return { status: "error", error };
+
+    const suggestions: PlaceSuggestion[] = data.map((row) => ({
+      placePrediction: {
+        placeId: row.place_id,
+        place: `places/${row.place_id}`,
+        text: { text: `${row.name}, ${row.secondary}`, matches: [] },
+        structuredFormat: {
+          mainText: { text: row.name, matches: [] },
+          secondaryText: { text: row.secondary },
+        },
+        types: row.types,
+      },
+    }));
+
+    return { status: "ok", data: { suggestions } };
   } catch (error) {
     console.error(error);
     return { status: "error", error };
