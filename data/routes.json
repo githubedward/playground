@@ -22,7 +22,8 @@
       "description": "I recently read about designing an autocomplete implementation in greatfrontend.com. While it appears as a simple component visually, it has a surprisingly complex implementation underneath.",
       "readingTime": "3 min read",
       "datePublished": "2025-07-23T00:00:00.000Z",
-      "category": "system-design"
+      "category": "system-design",
+      "dateUpdated": "2026-06-22T18:40:19.192Z"
     },
     {
       "path": "system-design/feed",
@@ -30,9 +31,10 @@
       "description": "In this experiment, we compare two feed implementations to measure the performance impact of DOM virtualization on infinite scroll feeds. Both implementations use offset-based pagination but differ in how they handle DOM rendering as the feed grows.",
       "readingTime": "3 min read",
       "datePublished": "2025-08-05T02:53:59.031Z",
-      "category": "system-design"
+      "category": "system-design",
+      "dateUpdated": "2026-06-22T18:40:19.227Z"
     }
   ],
-  "lastUpdated": "2025-08-13T03:57:04.271Z",
+  "lastUpdated": "2026-06-22T18:40:19.228Z",
   "totalRoutes": 4
 }

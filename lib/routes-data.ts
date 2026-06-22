@@ -6,6 +6,7 @@ export interface RouteInfo {
   description?: string;
   readingTime: string;
   datePublished: string;
+  dateUpdated?: string;
   category: string;
 }
 

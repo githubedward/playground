@@ -12,6 +12,7 @@ interface RouteInfo {
   description?: string;
   readingTime: string;
   datePublished: string;
+  dateUpdated?: string;
   category: string;
 }
 
@@ -53,7 +54,9 @@ export function Navigation({ routes, className }: NavigationProps) {
                       <span>{route.readingTime}</span>
                       <span> • </span>
                       <span>
-                        {formatISOToReadableDate(route.datePublished)}
+                        {formatISOToReadableDate(
+                          route.dateUpdated ?? route.datePublished,
+                        )}
                       </span>
                     </Text>
                   </div>

@@ -12,9 +12,12 @@ export function DatePublished({ path }: { path: string }) {
     return null;
   }
 
+  const label = currentRoute.dateUpdated ? "Updated on" : "Published on";
+  const date = currentRoute.dateUpdated ?? currentRoute.datePublished;
+
   return (
     <Text variant="small" className="text-muted-foreground italic mb-4">
-      Published on {formatISOToReadableDate(currentRoute.datePublished)}
+      {label} {formatISOToReadableDate(date)}
     </Text>
   );
 }
